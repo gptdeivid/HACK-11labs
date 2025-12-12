@@ -2,7 +2,6 @@
 
 import { Separator } from '@/components/ui/separator';
 
-import AgentSelector from './components/agent-selector';
 import ConversationUI from './components/conversation-ui';
 import { useConversationalAI } from './components/conversational-ai-provider';
 import EmptyState from './components/empty-state';
@@ -23,16 +22,11 @@ export default function Page() {
     return <EmptyState />;
   }
 
-  const defaultAgent = agents[0].agentId;
-
   return (
     <div className="container mx-auto p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Conversational AI</h1>
-          <p className="text-muted-foreground">Build life-like conversational agents</p>
-        </div>
-        <AgentSelector defaultAgent={defaultAgent} />
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold">Conversational AI</h1>
+        <p className="text-muted-foreground">Platica con un agente de ElevenLabs</p>
       </div>
 
       <Separator className="mb-6" />

@@ -91,19 +91,10 @@ export function ApiKeyBanner({ variant = 'header' }: ApiKeyBannerProps) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>ElevenLabs API Key</DialogTitle>
+            <DialogTitle>API Key</DialogTitle>
             <DialogDescription>
-              Enter your ElevenLabs API key to access the platform features. You can find your API
-              key in your{' '}
-              <Link
-                href="https://elevenlabs.io/app/settings/api-keys"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                ElevenLabs account
-              </Link>
-              .
+              Enter your API key to access the platform features. You can find your API key in your
+              account settings.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-4">
@@ -116,7 +107,7 @@ export function ApiKeyBanner({ variant = 'header' }: ApiKeyBannerProps) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   className="flex-1"
-                  placeholder="Enter your ElevenLabs API key"
+                  placeholder="Enter your API key"
                 />
                 <Button variant="outline" size="icon" onClick={handleClear} title="Clear API Key">
                   <span className="sr-only">Clear</span>

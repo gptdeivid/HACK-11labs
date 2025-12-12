@@ -39,8 +39,7 @@ export default function TextToDialoguePage() {
               Text to Dialogue
             </h1>
             <p className="text-muted-foreground">
-              Create conversations between multiple voices using the ElevenLabs
-              text-to-dialogue API.
+              Create conversations between multiple voices using the text-to-dialogue API.
             </p>
           </div>
 

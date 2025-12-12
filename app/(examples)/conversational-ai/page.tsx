@@ -26,7 +26,7 @@ export default function Page() {
     <div className="container mx-auto p-6">
       <div className="mb-4">
         <h1 className="text-2xl font-bold">Conversational AI</h1>
-        <p className="text-muted-foreground">Platica con un agente de ElevenLabs</p>
+        <p className="text-muted-foreground">Platica con un agente</p>
       </div>
 
       <Separator className="mb-6" />

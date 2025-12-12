@@ -24,11 +24,39 @@ export default function ConversationUI() {
   const [agentDetails, setAgentDetails] = useState<GetAgentResponseModel | null>(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [messages, setMessages] = useState<
+    { message: string; sender: string; timestamp: string }[]
+  >([]);
 
   const conversation = useConversation({
     onConnect: () => toast.info('Connected to agent'),
-    onDisconnect: () => toast.info('Disconnected from agent'),
-    onMessage: (message) => toast.info(`Message: ${message.message}`),
+    onDisconnect: () => {
+      toast.info('Disconnected from agent');
+      // auto-save history on disconnect
+      try {
+        if (messages.length > 0) {
+          saveHistoryToFile();
+        }
+      } catch (e) {
+        console.error('Failed to auto-save conversation history:', e);
+      }
+    },
+    onMessage: (message) => {
+      // store message in local state for history export
+      try {
+        const sender =
+          // @ts-ignore possible shape differences
+          message.sender || message.senderId || message.author || 'agent';
+        setMessages((prev) => [
+          ...prev,
+          { message: message.message ?? '', sender, timestamp: new Date().toISOString() },
+        ]);
+      } catch (e) {
+        console.error('Failed to record message:', e);
+      }
+
+      toast.info(`Message: ${message.message}`);
+    },
     onError: (error) => toast.error(`Error: ${error}`),
   });
 
@@ -99,6 +127,23 @@ export default function ConversationUI() {
   const stopConversation = useCallback(async () => {
     await conversation.endSession();
   }, [conversation]);
+
+  // Save conversation history to a .txt file and trigger download
+  function saveHistoryToFile() {
+    if (messages.length === 0) return;
+
+    const lines = messages.map((m) => `${m.timestamp} - ${m.sender}: ${m.message}`);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const safeName = agentDetails?.name ? agentDetails.name.replace(/\s+/g, '_') : 'agent';
+    a.href = url;
+    a.download = `conversation-${safeName}-${new Date().toISOString()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
 
   if (isLoadingDetails) {
     return (
@@ -180,6 +225,17 @@ export default function ConversationUI() {
           </>
         )}
       </Button>
+
+      <div className="flex items-center space-x-2">
+        <Button
+          variant="outline"
+          onClick={() => saveHistoryToFile()}
+          disabled={messages.length === 0}
+          className="flex items-center justify-center"
+        >
+          Guardar historial (.txt)
+        </Button>
+      </div>
 
       <p className="text-sm text-muted-foreground">
         Estado: <span className="capitalize">{conversation.status}</span>

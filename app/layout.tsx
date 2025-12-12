@@ -14,15 +14,15 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'ElevenLabs Next.js Playground',
-    template: '%s | ElevenLabs Next.js',
+    default: 'AI Playground',
+    template: '%s | AI Playground',
   },
-  metadataBase: new URL('https://elevenlabs-playground.vercel.app'),
-  description: 'A Next.JS playground to explore ElevenLabs capabilities.',
+  metadataBase: new URL('https://ai-playground.example'),
+  description: 'A Next.JS playground to explore AI capabilities.',
   openGraph: {
-    title: 'ElevenLabs Next.js Playground',
-    description: 'A playground to explore ElevenLabs capabilities.',
-    images: [`/api/og?title=ElevenLabs Next.js Playground`],
+    title: 'AI Playground',
+    description: 'A playground to explore AI capabilities.',
+    images: [`/api/og?title=AI Playground`],
   },
   twitter: {
     card: 'summary_large_image',

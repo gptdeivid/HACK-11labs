@@ -5,7 +5,7 @@ import { getAgents } from '@/app/actions/manage-agents';
 
 export const metadata: Metadata = {
   title: 'Conversational AI',
-  description: 'Build life-like conversational agents with ElevenLabs',
+  description: 'Build life-like conversational agents',
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

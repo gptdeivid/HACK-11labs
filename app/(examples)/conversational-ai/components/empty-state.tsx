@@ -19,10 +19,10 @@ export default function EmptyState() {
         />
         <h3 className="mb-2 text-xl font-medium">No agents found</h3>
         <p className="text-muted-foreground text-center">
-          Create an agent in the ElevenLabs dashboard
+          Create an agent in the dashboard
         </p>
         <Button
-          onClick={() => window.open('https://elevenlabs.io/app/conversational-ai', '_blank')}
+          onClick={() => (window.location.href = '/')}
           className="mt-6"
         >
           Create Agent

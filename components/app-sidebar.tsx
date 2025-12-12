@@ -33,25 +33,35 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {demos.map((demo) => (
-          <SidebarGroup key={demo.name}>
-            <SidebarGroupLabel>{demo.name}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {demo.items.map((item) => (
-                  <SidebarMenuItem key={item.name}>
-                    <SidebarMenuButton asChild isActive={pathname === `/${item.slug}`}>
-                      <a href={`/${item.slug}`}>
-                        {item.icon && <item.icon className="!h-[18px] !w-[18px] stroke-[2]" />}
-                        {item.name}
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {/*
+          Show only the Conversational AI demo in the sidebar.
+          Keep the surrounding structure so we don't break layout.
+        */}
+        {demos
+          .map((demo) => ({
+            ...demo,
+            items: demo.items.filter((item) => item.slug === 'conversational-ai'),
+          }))
+          .filter((demo) => demo.items.length > 0)
+          .map((demo) => (
+            <SidebarGroup key={demo.name}>
+              <SidebarGroupLabel>{demo.name}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {demo.items.map((item) => (
+                    <SidebarMenuItem key={item.name}>
+                      <SidebarMenuButton asChild isActive={pathname === `/${item.slug}`}>
+                        <a href={`/${item.slug}`}>
+                          {item.icon && <item.icon className="!h-[18px] !w-[18px] stroke-[2]" />}
+                          {item.name}
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
       </SidebarContent>
       <SidebarFooter className="p-4">
         <div className="flex w-full flex-col gap-2">

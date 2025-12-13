@@ -29,9 +29,9 @@ export default function ConversationUI() {
   >([]);
 
   const conversation = useConversation({
-    onConnect: () => toast.info('Connected to agent'),
+    onConnect: () => toast.info('Conectado a Ecos de Vida'),
     onDisconnect: () => {
-      toast.info('Disconnected from agent');
+      toast.info('Desconectado de Ecos de Vida');
       // auto-save history on disconnect
       try {
         if (messages.length > 0) {
@@ -46,7 +46,7 @@ export default function ConversationUI() {
       try {
         const sender =
           // @ts-ignore possible shape differences
-          message.sender || message.senderId || message.author || 'agent';
+          message.sender || message.senderId || message.author || 'ecos';
         setMessages((prev) => [
           ...prev,
           { message: message.message ?? '', sender, timestamp: new Date().toISOString() },
@@ -55,7 +55,7 @@ export default function ConversationUI() {
         console.error('Failed to record message:', e);
       }
 
-      toast.info(`Message: ${message.message}`);
+      toast.info('Mensaje recibido');
     },
     onError: (error) => toast.error(`Error: ${error}`),
   });
@@ -136,9 +136,9 @@ export default function ConversationUI() {
     const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    const safeName = agentDetails?.name ? agentDetails.name.replace(/\s+/g, '_') : 'agent';
+    const safeName = agentDetails?.name ? agentDetails.name.replace(/\s+/g, '_') : 'ecos';
     a.href = url;
-    a.download = `conversation-${safeName}-${new Date().toISOString()}.txt`;
+    a.download = `ecos-${safeName}-${new Date().toISOString()}.txt`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -149,7 +149,7 @@ export default function ConversationUI() {
     return (
       <div className="flex flex-col items-center justify-center space-y-4 py-8">
         <Loader2 className="h-8 w-8 animate-spin" />
-        <p className="text-muted-foreground">Loading agent...</p>
+        <p className="text-muted-foreground">Cargando...</p>
       </div>
     );
   }
@@ -157,7 +157,7 @@ export default function ConversationUI() {
   if (loadError && !agentDetails) {
     return (
       <Alert variant="destructive" className="my-4">
-        <AlertTitle>Error loading agent</AlertTitle>
+        <AlertTitle>Error al cargar</AlertTitle>
         <AlertDescription>{loadError}</AlertDescription>
         <Button
           variant="outline"
@@ -170,13 +170,13 @@ export default function ConversationUI() {
               if (result.ok) {
                 setAgentDetails(result.value);
               } else {
-                setLoadError(result.error || 'Failed to load agent details');
+                setLoadError(result.error || 'Error al cargar detalles');
               }
               setIsLoadingDetails(false);
             });
           }}
         >
-          Retry
+          Reintentar
         </Button>
       </Alert>
     );
@@ -185,9 +185,9 @@ export default function ConversationUI() {
   if (!agentDetails) {
     return (
       <div className="flex flex-col items-center justify-center space-y-4 py-8">
-        <p className="text-muted-foreground">No agent details available</p>
+        <p className="text-muted-foreground">Detalles no disponibles</p>
         <Button variant="outline" onClick={() => window.location.reload()}>
-          Refresh Page
+          Refrescar
         </Button>
       </div>
     );
@@ -196,9 +196,9 @@ export default function ConversationUI() {
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-xl font-bold">¿Quieres platicar con {agentDetails.name}?</h3>
+        <h3 className="text-xl font-bold">Ecos de Vida — {agentDetails.name}</h3>
         <p className="text-muted-foreground">
-          Presiona el botón para iniciar la conversación y conectar en vivo con tu agente.
+          Presiona el botón para iniciar los ecos en vivo.
         </p>
       </div>
 
@@ -216,12 +216,12 @@ export default function ConversationUI() {
         ) : conversation.status === 'connected' ? (
           <>
             <PhoneOff className="mr-2 h-4 w-4" />
-            Terminar plática
+            Detener ecos
           </>
         ) : (
           <>
             <Mic className="mr-2 h-4 w-4" />
-            Platicar con agente
+            Iniciar Ecos de Vida
           </>
         )}
       </Button>
